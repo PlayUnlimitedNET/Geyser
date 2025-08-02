@@ -42,14 +42,14 @@ public class BedrockDimension {
     // Changes if the above-bedrock Nether building workaround is applied
     public static int BEDROCK_NETHER_ID = DEFAULT_NETHER_ID;
 
-    public static final BedrockDimension OVERWORLD = new BedrockDimension(-64, 384, true, OVERWORLD_ID);
+    public static final BedrockDimension OVERWORLD = new BedrockDimension(-64, 384, false, OVERWORLD_ID);
     public static final BedrockDimension THE_NETHER = new BedrockDimension(0, 128, false, -1) {
         @Override
         public int bedrockId() {
             return BEDROCK_NETHER_ID;
         }
     };
-    public static final BedrockDimension THE_END = new BedrockDimension(0, 256, true, END_ID);
+    public static final BedrockDimension THE_END = new BedrockDimension(0, 256, false, END_ID);
     public static final String NETHER_IDENTIFIER = "minecraft:the_nether";
 
     private final int minY;
@@ -78,7 +78,7 @@ public class BedrockDimension {
      */
     public static void changeBedrockNetherId(boolean isAboveNetherBedrockBuilding) {
         // Change dimension ID to the End to allow for building above Bedrock
-        BEDROCK_NETHER_ID = isAboveNetherBedrockBuilding ? END_ID : DEFAULT_NETHER_ID;
+        BEDROCK_NETHER_ID = isAboveNetherBedrockBuilding ? OVERWORLD_ID : DEFAULT_NETHER_ID; // PlayUnlimited: Nether must be higher than end dimension building height due to custom world
     }
 
     public static boolean isCustomBedrockNetherId() {

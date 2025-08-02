@@ -42,6 +42,18 @@ public class JavaSetTimeTranslator extends PacketTranslator<ClientboundSetTimePa
 
         // https://minecraft.wiki/w/Day-night_cycle#24-hour_Minecraft_day
         SetTimePacket setTimePacket = new SetTimePacket();
+        // START PLAYUNLIMITED: custom dimension modification
+        // PlayUnlimited: Overwrites the time if the player is in the Nether.
+        // Required to provide a Nether-like experience while the Nether's dimension type is the Overworld.
+        if (session.getDimensionType().isNetherLike()) {
+            setTimePacket.setTime(18000);
+            session.sendUpstreamPacket(setTimePacket);
+            if (session.isDaylightCycle()) {
+                session.setDaylightCycle(false);
+            }
+            return;
+        }
+        // END PLAYUNLIMITED
         // We use modulus to prevent an integer overflow
         // 24000 is the range of ticks that a Minecraft day can be; we times by 8 so all moon phases are visible
         // (Last verified behavior: Bedrock 1.18.12 / Java 1.18.2)
