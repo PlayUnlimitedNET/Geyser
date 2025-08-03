@@ -83,35 +83,6 @@ public class DimensionUtils {
         session.updateThunder(0);
 
         finalizeDimensionSwitch(session, player);
-        // START PLAYUNLIMITED: custom dimension modification
-        // PlayUnlimited: Gives the player the Blindness effect in the Nether.
-        // Required to provide a Nether-like experience while the Nether's dimension type is the Overworld
-        if (javaDimension.isNetherLike()) {
-            MobEffectPacket addBlindness = new MobEffectPacket();
-            addBlindness.setAmplifier(1);
-            addBlindness.setDuration(-1);
-            addBlindness.setEvent(MobEffectPacket.Event.ADD);
-            addBlindness.setRuntimeEntityId(player.getGeyserId());
-            addBlindness.setParticles(false);
-            addBlindness.setEffectId(EntityUtils.toBedrockEffectId(Effect.BLINDNESS));
-            session.sendUpstreamPacket(addBlindness);
-
-            session.setDaylightCycle(false);
-            SetTimePacket setTimePacket = new SetTimePacket();
-            setTimePacket.setTime(18000);
-            session.sendUpstreamPacket(setTimePacket);
-        } else if (previousDimension != null && previousDimension.isNetherLike()) {
-            MobEffectPacket removeBlindness = new MobEffectPacket();
-            removeBlindness.setEvent(MobEffectPacket.Event.REMOVE);
-            removeBlindness.setRuntimeEntityId(player.getGeyserId());
-            removeBlindness.setEffectId(EntityUtils.toBedrockEffectId(Effect.BLINDNESS));
-            session.sendUpstreamPacket(removeBlindness);
-
-            if (!session.isDaylightCycle()) {
-                session.setDaylightCycle(true);
-            }
-        }
-        // END PLAYUNLIMITED
 
         // If the bedrock nether height workaround is enabled, meaning the client is told it's in the end dimension,
         // we check if the player is entering the nether and apply the nether fog to fake the fact that the client
