@@ -208,12 +208,19 @@ public final class Registries {
         // (by using the Items or Blocks class, which loads all the blocks)
 
         BEDROCK_ENTITY_IDENTIFIERS.load();
-        // Add custom entity identifier for playunlimited
+        // Add custom entity identifiers for PlayUnlimited entities
         NbtMap identifiers = BEDROCK_ENTITY_IDENTIFIERS.get();
         List<NbtMap> idList = new ArrayList<>(identifiers.getList("idlist", NbtType.COMPOUND));
         int nextRid = idList.stream().mapToInt(map -> map.getInt("rid")).max().orElse(-1) + 1;
         idList.add(NbtMap.builder()
                 .putString("id", "playunlimited:playunlimited")
+                .putShort("bid", (short) 0)
+                .putInt("rid", nextRid++)
+                .putBoolean("summonable", true)
+                .putBoolean("hasSpawnEgg", false)
+                .build());
+        idList.add(NbtMap.builder()
+                .putString("id", "playunlimited:core_rings")
                 .putShort("bid", (short) 0)
                 .putInt("rid", nextRid)
                 .putBoolean("summonable", true)
