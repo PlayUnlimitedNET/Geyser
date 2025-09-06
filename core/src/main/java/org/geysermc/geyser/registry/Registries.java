@@ -211,10 +211,11 @@ public final class Registries {
         // Add custom entity identifier for playunlimited
         NbtMap identifiers = BEDROCK_ENTITY_IDENTIFIERS.get();
         List<NbtMap> idList = new ArrayList<>(identifiers.getList("idlist", NbtType.COMPOUND));
+        int nextRid = idList.stream().mapToInt(map -> map.getInt("rid")).max().orElse(-1) + 1;
         idList.add(NbtMap.builder()
                 .putString("id", "playunlimited:playunlimited")
                 .putShort("bid", (short) 0)
-                .putInt("rid", 0)
+                .putInt("rid", nextRid)
                 .putBoolean("summonable", true)
                 .putBoolean("hasSpawnEgg", false)
                 .build());
