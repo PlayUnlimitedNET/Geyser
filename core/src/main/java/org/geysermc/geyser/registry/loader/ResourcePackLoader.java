@@ -82,7 +82,7 @@ public class ResourcePackLoader implements RegistryLoader<Path, Map<UUID, Resour
             .expireAfterWrite(15, TimeUnit.MINUTES)
             .build();
 
-    static final PathMatcher PACK_MATCHER = FileSystems.getDefault().getPathMatcher("glob:**.{zip,mcpack}");
+    static final PathMatcher PACK_MATCHER = FileSystems.getDefault().getPathMatcher("glob:**.{zip,mcpack,mcaddon}");
 
     private static final boolean SHOW_RESOURCE_PACK_LENGTH_WARNING = Boolean.parseBoolean(System.getProperty("Geyser.ShowResourcePackLengthWarning", "true"));
 
@@ -156,7 +156,7 @@ public class ResourcePackLoader implements RegistryLoader<Path, Map<UUID, Resour
      */
     public static GeyserResourcePack.Builder readPack(Path path) throws IllegalArgumentException {
         if (!PACK_MATCHER.matches(path)) {
-            throw new IllegalArgumentException("Resource pack " + path.getFileName() + " must be a .zip or .mcpack file!");
+            throw new IllegalArgumentException("Resource pack " + path.getFileName() + " must be a .zip, .mcpack or .mcaddon file!");
         }
 
         ResourcePackManifest manifest = readManifest(path, path.getFileName().toString());
