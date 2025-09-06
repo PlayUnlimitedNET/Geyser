@@ -973,10 +973,12 @@ public final class EntityDefinitions {
                     .build();
             CHICKEN = EntityDefinition.inherited(ChickenEntity::new, ageableEntityBase)
                     .type(EntityType.CHICKEN)
+                    .identifier("playunlimited:playunlimited")
                     .height(0.7f).width(0.4f)
                     .properties(VanillaEntityProperties.CLIMATE_VARIANT)
                     .addTranslator(MetadataTypes.CHICKEN_VARIANT, ChickenEntity::setVariant)
                     .build();
+            Registries.JAVA_ENTITY_IDENTIFIERS.get().put("playunlimited:playunlimited", CHICKEN);
             COW = EntityDefinition.inherited(CowEntity::new, ageableEntityBase)
                     .type(EntityType.COW)
                     .height(1.4f).width(0.9f)
