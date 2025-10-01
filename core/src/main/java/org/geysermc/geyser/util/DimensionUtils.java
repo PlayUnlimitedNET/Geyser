@@ -62,6 +62,7 @@ public class DimensionUtils {
         session.getLodestoneCache().clear();
         session.getPistonCache().clear();
         session.getSkullCache().clear();
+        session.getBlockBreakHandler().reset();
 
         changeDimension(session, bedrockDimension);
 
