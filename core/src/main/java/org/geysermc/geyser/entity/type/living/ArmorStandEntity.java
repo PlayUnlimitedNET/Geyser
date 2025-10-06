@@ -293,6 +293,18 @@ public class ArmorStandEntity extends LivingEntity {
     public void setHand(GeyserItemStack hand) {
         super.setHand(hand);
         updateSecondEntityStatus(true);
+
+        if (!hand.isEmpty() && hand.asItem() == Items.GRASS_BLOCK) {
+            if (this.definition != EntityDefinitions.CORE_RINGS) {
+                despawnEntity();
+                this.definition = EntityDefinitions.CORE_RINGS;
+                spawnEntity();
+            }
+        } else if (this.definition == EntityDefinitions.CORE_RINGS) {
+            despawnEntity();
+            this.definition = EntityDefinitions.ARMOR_STAND;
+            spawnEntity();
+        }
     }
 
     @Override

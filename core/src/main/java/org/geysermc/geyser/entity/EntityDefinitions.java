@@ -181,6 +181,7 @@ public final class EntityDefinitions {
     public static final EntityDefinition<ChestBoatEntity> CHERRY_CHEST_BOAT;
     public static final EntityDefinition<MinecartEntity> CHEST_MINECART;
     public static final EntityDefinition<ChickenEntity> CHICKEN;
+    public static final EntityDefinition<ArmorStandEntity> CORE_RINGS;
     public static final EntityDefinition<AbstractFishEntity> COD;
     public static final EntityDefinition<CommandBlockMinecartEntity> COMMAND_BLOCK_MINECART;
     public static final EntityDefinition<CowEntity> COW;
@@ -651,6 +652,10 @@ public final class EntityDefinitions {
                 .addTranslator(MetadataTypes.ROTATIONS, ArmorStandEntity::setLeftLegRotation)
                 .addTranslator(MetadataTypes.ROTATIONS, ArmorStandEntity::setRightLegRotation)
                 .build();
+        CORE_RINGS = EntityDefinition.inherited(ArmorStandEntity::new, ARMOR_STAND)
+                .identifier("playunlimited:core_rings")
+                .build(false);
+        Registries.JAVA_ENTITY_IDENTIFIERS.get().put("playunlimited:core_rings", CORE_RINGS);
         PLAYER = EntityDefinition.<PlayerEntity>inherited(null, livingEntityBase)
                 .type(EntityType.PLAYER)
                 .height(1.8f).width(0.6f)
@@ -973,10 +978,12 @@ public final class EntityDefinitions {
                     .build();
             CHICKEN = EntityDefinition.inherited(ChickenEntity::new, ageableEntityBase)
                     .type(EntityType.CHICKEN)
+                    .identifier("playunlimited:playunlimited")
                     .height(0.7f).width(0.4f)
                     .properties(VanillaEntityProperties.CLIMATE_VARIANT)
                     .addTranslator(MetadataTypes.CHICKEN_VARIANT, ChickenEntity::setVariant)
                     .build();
+            Registries.JAVA_ENTITY_IDENTIFIERS.get().put("playunlimited:playunlimited", CHICKEN);
             COW = EntityDefinition.inherited(CowEntity::new, ageableEntityBase)
                     .type(EntityType.COW)
                     .height(1.4f).width(0.9f)

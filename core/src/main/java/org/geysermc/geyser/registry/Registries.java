@@ -32,6 +32,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.kyori.adventure.key.Key;
 import org.cloudburstmc.nbt.NbtMap;
 import org.cloudburstmc.nbt.NbtMapBuilder;
+import org.cloudburstmc.nbt.NbtType;
 import org.cloudburstmc.protocol.bedrock.data.biome.BiomeDefinitions;
 import org.cloudburstmc.protocol.bedrock.data.inventory.crafting.PotionMixData;
 import org.cloudburstmc.protocol.bedrock.packet.BedrockPacket;
@@ -73,6 +74,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -223,6 +225,34 @@ public final class Registries {
         // (by using the Items or Blocks class, which loads all the blocks)
 
         BEDROCK_ENTITY_IDENTIFIERS.load();
+        // Add custom entity identifiers for PlayUnlimited entities
+        NbtMap identifiers = BEDROCK_ENTITY_IDENTIFIERS.get();
+        List<NbtMap> idList = new ArrayList<>(identifiers.getList("idlist", NbtType.COMPOUND));
+        int nextRid = idList.stream().mapToInt(map -> map.getInt("rid")).max().orElse(-1) + 1;
+
+        for (int i = 0; i < idList.size(); i++) {
+            NbtMap map = idList.get(i);
+            if ("minecraft:chicken".equals(map.getString("id"))) {
+                idList.set(i, NbtMap.builder()
+                        .putString("id", "playunlimited:playunlimited")
+                        .putShort("bid", map.getShort("bid"))
+                        .putInt("rid", map.getInt("rid"))
+                        .putBoolean("summonable", true)
+                        .putBoolean("hasSpawnEgg", map.getBoolean("hasSpawnEgg"))
+                        .build());
+                break;
+            }
+        }
+
+        idList.add(NbtMap.builder()
+                .putString("id", "playunlimited:core_rings")
+                .putShort("bid", (short) 0)
+                .putInt("rid", nextRid)
+                .putBoolean("summonable", true)
+                .putBoolean("hasSpawnEgg", false)
+                .build());
+
+        BEDROCK_ENTITY_IDENTIFIERS.set(NbtMap.builder().putList("idlist", NbtType.COMPOUND, idList).build());
         BIOMES_NBT.load();
         BIOMES.load();
         BIOME_IDENTIFIERS.load();
